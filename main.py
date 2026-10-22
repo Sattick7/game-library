@@ -21,6 +21,14 @@ def search_games(term):
     term = term.strip().lower()
     return[g for g in games if term in g["title"].lower()]
 
+def remove_game(title):
+    title = title.strip().lower()
+    for g in games:
+        if g["title"].lower() == title:
+            games.remove(g)
+            return True
+    return False
+
 def show_results(results):
     if not results:
         print("No matches.")
@@ -42,9 +50,17 @@ def prompt_search():
     show_results(search_games(term))
 
 
+def prompt_remove_game():
+    title = input("Title to remove: ")
+    if remove_game(title):
+        print("Game removed.")
+    else:
+        print("Game not found.")
+
+
 def main():
     while True:
-        print("\n1) Add game  2) List games  3) Search  4) Quit")
+        print("\n1) Add game  2) List games  3) Search  4) Remove Game 5) Quit")
         choice = input("> ").strip()
 
         if choice == "1":
@@ -54,6 +70,8 @@ def main():
         elif choice == "3":
             prompt_search()
         elif choice == "4":
+            prompt_remove_game()
+        elif choice == "5":
             print("Goodbye!")
             break
         else:
