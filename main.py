@@ -60,6 +60,18 @@ def remove_game(title):
             return True
     return False
 
+def update_status(title, new_status):
+    title = title.strip().lower()
+    new_status = new_status.strip().lower()
+
+    if new_status not in VALID_STATUSES:
+        return False, "Status must be one of: " + ", ".join(VALID_STATUSES)
+    for g in games:
+        if g["title"].lower() == title:
+            g["status"] = new_status
+            return True, "Status updated."
+    return False, "Game not found."
+
 def show_results(results):
     if not results:
         print("No matches.")
@@ -89,11 +101,19 @@ def prompt_remove_game():
     else:
         print("Game not found.")
 
+def prompt_update_status():
+    title = input("Title of game to update: ")
+    status = input(f"New status ({', '.join(VALID_STATUSES)}): ")
+    ok, message = update_status(title, status)
+    print(message)
+    if ok:
+        save_games()
+
 
 def main():
     games.extend(load_games())
     while True:
-        print("\n1) Add game  2) List games  3) Search  4) Remove Game 5) Quit")
+        print("\n1) Add game  2) List games  3) Search  4) Remove Game 5) Update 6) Quit")
         choice = input("> ").strip()
 
         if choice == "1":
@@ -105,6 +125,8 @@ def main():
         elif choice == "4":
             prompt_remove_game()
         elif choice == "5":
+            prompt_update_status()
+        elif choice == "6":
             print("Goodbye!")
             break
         else:
