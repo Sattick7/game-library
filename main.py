@@ -7,6 +7,21 @@ def save_games():
     with open(FILENAME, "w") as f:
         json.dump(games, f, indent=2)
 
+
+def load_games():
+    try:
+        with open(FILENAME, "r") as f:
+            data = json.load(f)
+    except FileNotFoundError:
+        return []
+    except json.JSONDecodeError:
+        print("Warning: games.json is damaged. Starting with an empty library.")
+        return []
+    if not isinstance(data, list):
+        print("Warning: games.json has the wrong format. Starting empty.")
+        return []
+    return data
+
 def add_game( title, platform, status):
     title = title.strip()
     platform = platform.strip()
@@ -69,6 +84,7 @@ def prompt_remove_game():
 
 
 def main():
+    games.extend(load_games())
     while True:
         print("\n1) Add game  2) List games  3) Search  4) Remove Game 5) Quit")
         choice = input("> ").strip()
