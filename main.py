@@ -1,4 +1,12 @@
+import json
 games = []
+
+FILENAME = "games.json"
+
+def save_games():
+    with open(FILENAME, "w") as f:
+        json.dump(games, f, indent=2)
+
 def add_game( title, platform, status):
     title = title.strip()
     platform = platform.strip()
@@ -42,6 +50,7 @@ def prompt_add_game():
     status = input("Status: ")
     if add_game(title, platform, status):
         print("Game added.")
+        save_games()
     else:
         print("Title can't be blank.")
 
@@ -54,6 +63,7 @@ def prompt_remove_game():
     title = input("Title to remove: ")
     if remove_game(title):
         print("Game removed.")
+        save_games()
     else:
         print("Game not found.")
 
