@@ -2,6 +2,7 @@ import json
 games = []
 
 FILENAME = "games.json"
+VALID_STATUSES = ["playing", "finished", "wishlist", "abandoned"]
 
 def save_games():
     with open(FILENAME, "w") as f:
@@ -22,16 +23,23 @@ def load_games():
         return []
     return data
 
-def add_game( title, platform, status):
+def add_game(title, platform, status):
     title = title.strip()
     platform = platform.strip()
-    status = status.strip()
+    status = status.strip().lower()
 
     if not title:
-        return False
-    
+        return False, "Title can't be blank."
+    if not platform:
+        return False, "Platform can't be blank."
+    if status not in VALID_STATUSES:
+        return False, "Status must be one of: " + ", ".join(VALID_STATUSES)
+    for g in games:
+        if g["title"].lower() == title.lower():
+            return False, "That game is already in your library."
+
     games.append({"title": title, "platform": platform, "status": status})
-    return True
+    return True, "Game added."
 
 def list_games():
     if not games:
@@ -62,12 +70,11 @@ def show_results(results):
 def prompt_add_game():
     title = input("Title: ")
     platform = input("Platform: ")
-    status = input("Status: ")
-    if add_game(title, platform, status):
-        print("Game added.")
+    status = input(f"Status ({', '.join(VALID_STATUSES)}): ")
+    ok, message = add_game(title, platform, status)
+    print(message)
+    if ok:
         save_games()
-    else:
-        print("Title can't be blank.")
 
 def prompt_search():
     term = input("Search for: ")
