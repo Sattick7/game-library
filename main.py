@@ -50,6 +50,8 @@ def list_games():
 
 def search_games(term):
     term = term.strip().lower()
+    if not term:
+        return []
     return[g for g in games if term in g["title"].lower()]
 
 def remove_game(title):
