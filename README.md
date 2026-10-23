@@ -1,7 +1,7 @@
 # Game Library
 
 A command-line app to track the games you own, play, and want to play.
-Built in Python as a learning project. This is a project which just I wanted to make so people can use it to track what they've already played or wanted to. It keeps track of every platform
+Built in Python as a learning project. The project can be used to track their games, without linking their accounts or anything, it's just a tracker.
 
 
 ## Features
@@ -18,7 +18,7 @@ Valid statuses: `playing`, `finished`, `wishlist`, `abandoned`
 
 ## Requirements
 
-- Python 3.10 or newer [check this against your version]
+- Python 3.10 or newer
 - pytest (only to run the tests)
 
 ## How to run
@@ -47,3 +47,10 @@ All 20 tests should pass.
 ## What I learned
 
 I learned a lot during this project... It was a good text for DSA, as well as other elements such as pytest. I also learned how to use json file to save the data. Mainly to use git in my project.
+
+## Future ideas
+
+- Basic graphical interface (tkinter)
+- Edit title and platform, not just status
+- Filter by platform or status
+- To add a database of game title so people can just choose from a dropdown list
